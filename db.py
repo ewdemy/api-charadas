@@ -31,10 +31,17 @@ def buscar_por_id(id):
 def salvar_charada(charada: Charada):
     cursor.execute("insert into charadas(pergunta, resposta, createdAt, updatedAt) values ('"+charada.pergunta+"', '"+charada.resposta+"', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
     commit = db.commit()
-    print(commit)
     cursor.execute(f"select id, pergunta, resposta from charadas where id = (SELECT MAX( id ) from charadas)")
     charada = cursor.fetchone()
     return toCharada(charada)
+
+def atualizar_charada(charada: Charada, id: int):
+    cursor.execute(f"update charadas set pergunta = '"+charada.pergunta+"', resposta = '"+charada.resposta+"', updatedAt = CURRENT_TIMESTAMP where id = '"+str(id)+"'")
+    commit = db.commit()
+    cursor.execute(f"select id, pergunta, resposta from charadas where id = '"+str(id)+"'")
+    charada = cursor.fetchone()
+    return toCharada(charada)
+
 
 
 def toCharada(tupla):

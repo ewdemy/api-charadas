@@ -3,6 +3,7 @@ from fastapi_pagination import Page, paginate
 from Utils import Params
 import db
 from models import Charada
+from fastapi.openapi.utils import get_openapi
 
 app = FastAPI()
 
@@ -21,5 +22,10 @@ async def buscar_por_id(id: int):
 @app.post("/charadas", status_code = 201)
 async def salvar_charada(charada: Charada):
     return db.salvar_charada(charada)
+
+@app.put("/charadas/{id}", status_code = 200)
+async def atualizar_charada(charada: Charada, id: int):
+    return db.atualizar_charada(charada, id)
+
 
 
