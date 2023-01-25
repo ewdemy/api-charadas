@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Response, status
 from fastapi_pagination import Page, paginate
 from Utils import Params
 import repository
@@ -25,6 +25,11 @@ async def salvar_charada(charada: Charada):
 @app.put("/charadas/{id}", status_code = 200)
 async def atualizar_charada(charada: Charada, id: int):
     return repository.atualizar_charada(charada, id)
+
+@app.delete("/charadas/{id}", status_code = 204)
+async def deletar_charada(id: int):
+    repository.deletar_charada(id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 

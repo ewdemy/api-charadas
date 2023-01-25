@@ -42,6 +42,11 @@ def atualizar_charada(charada: Charada, id: int):
     charada = cursor.fetchone()
     return toCharada(charada)
 
+def deletar_charada(id: int):
+    buscar_por_id(id)
+    cursor.execute(f"delete from charadas where id = '"+str(id)+"'")
+    commit = db.commit()
+
 
 
 def toCharada(tupla):
