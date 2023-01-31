@@ -1,8 +1,8 @@
 import sqlite3
 from fastapi import HTTPException
-from models import Charada
+from models import Charada, Usuario
 
-db = sqlite3.connect("database.sqlite")
+db = sqlite3.connect("database.sqlite", check_same_thread=False)
 
 cursor = db.cursor()
 
@@ -47,10 +47,19 @@ def deletar_charada(id: int):
     cursor.execute(f"delete from charadas where id = '"+str(id)+"'")
     commit = db.commit()
 
-
+def buscar_usuario_por_email(email):
+    cursor.execute(f"select id, nome, email, password from usuarios where email = '"+str(email)+"'")
+    usuario = cursor.fetchone()
+    if usuario is None:
+        return usuario
+    return toUsuario(usuario)
 
 def toCharada(tupla):
     charada = Charada(id=tupla[0], pergunta=tupla[1], resposta=tupla[2])
     return charada
+
+def toUsuario(tupla):
+    usuario = Usuario(id=tupla[0], nome=tupla[1], email=tupla[2], password=tupla[3])
+    return usuario
 
 

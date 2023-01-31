@@ -9,3 +9,12 @@ class Charada(BaseModel):
 
     class Config:
         orm_mode = True
+
+class Usuario(BaseModel):
+    id: int = None
+    nome: str
+    email: str
+    password: str
+
+    class Config:
+        orm_mode = True
