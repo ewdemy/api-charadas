@@ -28,9 +28,7 @@ def login(data: OAuth2PasswordRequestForm = Depends()):
 
     user = load_user(email)
 
-    if user is None:
-        raise InvalidCredentialsException
-    elif not valida_senha(password, user.password.encode()):
+    if user is None or not valida_senha(password, user.password.encode()):
         raise InvalidCredentialsException
 
     access_token = manager.create_access_token(
@@ -41,31 +39,31 @@ def login(data: OAuth2PasswordRequestForm = Depends()):
 
 @app.get("/charadas", response_model=Page[repository.Charada])
 async def buscar_todas_charadas(params: Params = Depends(), user=Depends(manager)):
-    return paginate(repository.busrcarTodos(), params)
+    return paginate(repository.buscar_todos(), params)
 
 
 @app.get("/charadas/charada-aleatoria")
 async def buscar_charada_aleatoria():
-    return repository.buscarCharadaAleatoria()
+    return repository.buscar_charada_aleatoria()
 
 
 @app.get("/charadas/{id}")
-async def buscar_por_id(id: int):
+async def buscar_por_id(id: int, user=Depends(manager)):
     return repository.buscar_por_id(id)
 
 
 @app.post("/charadas", status_code=201)
-async def salvar_charada(charada: Charada):
+async def salvar_charada(charada: Charada, user=Depends(manager)):
     return repository.salvar_charada(charada)
 
 
 @app.put("/charadas/{id}", status_code=200)
-async def atualizar_charada(charada: Charada, id: int):
+async def atualizar_charada(charada: Charada, id: int, user=Depends(manager)):
     return repository.atualizar_charada(charada, id)
 
 
 @app.delete("/charadas/{id}", status_code=204)
-async def deletar_charada(id: int):
+async def deletar_charada(id: int, user=Depends(manager)):
     repository.deletar_charada(id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
