@@ -40,9 +40,9 @@ uvicorn main:app --reload
 * Feito isso sua aplicação estará rodando na porta :8000
 
 ## 📕 Documentação:
-***
+
 * A Documentação do projeto pode ser lida e realizada as ações em ```/docs``` ou ```/redoc```
-***
+
 
 ## Licença ©️
 
